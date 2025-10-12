@@ -71,9 +71,43 @@ class AddNewConnectionState extends State<AddNewConnection> {
                 ),
               ),
             ),
+            SizedBox(height: 30),
+            Align(
+              alignment: Alignment.centerRight, // 靠右对齐
+              child: ElevatedButton(
+                onPressed: () {
+                  onPressed();
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 12,
+                  ),
+                ),
+                child: const Text('测试连接'),
+              ),
+            ),
+            SizedBox(height: 30),
+            Align(
+              alignment: Alignment.centerRight, // 靠右对齐
+              child: ElevatedButton(
+                onPressed: () {
+                  onPressed();
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 12,
+                  ),
+                ),
+                child: const Text('保存连接'),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
+
+  void onPressed() {}
 }
