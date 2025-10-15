@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pro/components/dialog/dialog_utils.dart';
+import 'package:flutter_pro/dto/RedisConnectionParam.dart';
+import 'package:flutter_pro/dto/RedisConnectionResult.dart';
+import 'package:flutter_pro/http/RedisConnectionSaveService.dart';
+import 'package:flutter_pro/http/RedisConnectionService.dart';
+import 'package:flutter_pro/http/api_service.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddNewConnection extends StatefulWidget {
   const AddNewConnection({super.key});
@@ -76,7 +83,7 @@ class AddNewConnectionState extends State<AddNewConnection> {
               alignment: Alignment.centerRight, // 靠右对齐
               child: ElevatedButton(
                 onPressed: () {
-                  onPressed();
+                  onCheckConnetion();
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
@@ -92,7 +99,7 @@ class AddNewConnectionState extends State<AddNewConnection> {
               alignment: Alignment.centerRight, // 靠右对齐
               child: ElevatedButton(
                 onPressed: () {
-                  onPressed();
+                  onSaveConnectionPressed();
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
@@ -109,5 +116,138 @@ class AddNewConnectionState extends State<AddNewConnection> {
     );
   }
 
-  void onPressed() {}
+  void onSaveConnectionPressed () async {
+    // 初始化服务（无需传入BaseUrl，已固定）
+    final httpService = HttpService();
+    final redisService = RedisConnectionSaveService(httpService);
+
+    // 调用登录接口
+    try {
+      print(" _nameController1"+_nameController.text);
+      final response = await redisService.saveConnection(
+        RedisConnectionParam(
+          host: _hostController.text,
+          port: int.parse(_portController.text),
+          password: _passwordController.text,
+          database: 0,
+          timeout: 5000,
+          connectionName: _nameController.text,
+        ),
+      );
+      if (response.code == 0) {
+        /*
+        Fluttertoast.showToast(
+          msg: "连接成功",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black45,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+        */
+        Fluttertoast.showToast(
+          msg: "保存成功：${response.message}",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      } else {
+        Fluttertoast.showToast(
+          msg: "保存失败：${response.message}",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.amber,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: "保存失败：${e.toString()}",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
+  }
+    // 保存连接
+
+  /*
+{
+  "host": "106.14.236.60",
+  "port": 6379,
+  "password": "1234561",
+  "database": 0,
+  "timeout": 0
+}
+*/
+  void onCheckConnetion() async {
+    // 初始化服务（无需传入BaseUrl，已固定）
+    final httpService = HttpService();
+    final redisService = RedisConnectionService(httpService);
+
+    // 调用登录接口
+    try {
+      final response = await redisService.checkConnection(
+        RedisConnectionParam(
+          host: _hostController.text,
+          port: int.parse(_portController.text),
+          password: _passwordController.text,
+          database: 0,
+          timeout: 5000,
+          connectionName: _nameController.text,
+        ),
+      );
+      if (response.code == 0) {
+        /*
+        Fluttertoast.showToast(
+          msg: "连接成功",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black45,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+        */
+        Fluttertoast.showToast(
+          msg: "连接成功：${response.message}",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      } else {
+        Fluttertoast.showToast(
+          msg: "连接失败：${response.message}",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.amber,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: "连接失败：${e.toString()}",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
+  }
 }
