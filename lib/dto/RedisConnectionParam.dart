@@ -23,7 +23,7 @@ class RedisConnectionParam {
     this.port = 6379,
     this.password,
     this.database = 0,
-    this.timeout = 5000,
+    this.timeout = 1000,
   }) {
     // 执行参数验证
     _validate();
@@ -74,7 +74,7 @@ class RedisConnectionParam {
       port: json['port'] as int? ?? 6379,
       password: json['password'] as String?,
       database: json['database'] as int? ?? 0,
-      timeout: json['timeout'] as int? ?? 5000,
+      timeout: json['timeout'] as int? ?? 1000,
       connectionName: json['host'] as String,
     );
   }

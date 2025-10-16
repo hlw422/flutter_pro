@@ -123,14 +123,14 @@ class AddNewConnectionState extends State<AddNewConnection> {
 
     // 调用登录接口
     try {
-      print(" _nameController1"+_nameController.text);
+      //print(" _nameController1"+_nameController.text);
       final response = await redisService.saveConnection(
         RedisConnectionParam(
           host: _hostController.text,
           port: int.parse(_portController.text),
           password: _passwordController.text,
           database: 0,
-          timeout: 5000,
+          timeout: 1000,
           connectionName: _nameController.text,
         ),
       );
@@ -155,6 +155,7 @@ class AddNewConnectionState extends State<AddNewConnection> {
           textColor: Colors.white,
           fontSize: 16.0,
         );
+        Navigator.pop(context,"save_success");
       } else {
         Fluttertoast.showToast(
           msg: "保存失败：${response.message}",
@@ -202,7 +203,7 @@ class AddNewConnectionState extends State<AddNewConnection> {
           port: int.parse(_portController.text),
           password: _passwordController.text,
           database: 0,
-          timeout: 5000,
+          timeout: 1000,
           connectionName: _nameController.text,
         ),
       );
