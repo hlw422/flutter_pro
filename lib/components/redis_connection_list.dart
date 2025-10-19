@@ -19,3 +19,4 @@ class _RedisConnectionListState extends State<RedisConnectionList> {
     );
   }
 }
+

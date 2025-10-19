@@ -3,29 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pro/components/CommonDataTable.dart';
 import 'package:flutter_pro/components/NoConnection.dart';
 import 'package:flutter_pro/components/RedisConnectionHeader.dart';
+import 'package:flutter_pro/components/RedisDataTypesList.dart';
 import 'package:flutter_pro/components/RedisOperation.dart';
 import 'package:flutter_pro/components/addNewConnection.dart';
-import 'package:flutter_pro/components/redis_connection_list.dart';
-import 'package:flutter_pro/dto/RedisConnectionConfigDto.dart';
 import 'package:flutter_pro/dto/RedisConnectionConfigDtoList.dart';
 import 'package:flutter_pro/dto/RedisConnectionDelete.dart';
 import 'package:flutter_pro/dto/RedisConnectionQuery.dart';
 import 'package:flutter_pro/http/RedisConnectionDeleteService.dart';
 import 'package:flutter_pro/http/RedisConnectionList.dart';
 import 'package:flutter_pro/http/api_service.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ConnectPage extends StatefulWidget {
   const ConnectPage({super.key});
 
   @override
   ConnectPageState createState() => ConnectPageState();
+
 }
 
 class ConnectPageState extends State<ConnectPage> {
   bool tableHasData = false;
   List<Map<String, dynamic>> mapList = [];
-
+  
   // 2. 定义 Redis 表格的列配置
   final List<CommonTableColumn> redisColumns = [
     CommonTableColumn(
@@ -142,7 +141,8 @@ class ConnectPageState extends State<ConnectPage> {
                     context,
                     // 配置跳转动画（MaterialPageRoute自带默认动画）
                     MaterialPageRoute(
-                      builder: (context) => const Redisoperation(), // 目标页面
+                      builder: (context) => RedisOperation(id: rowData['id'] as int), // 目标页面
+                      
                     ),
                   );
                 },
